@@ -1,0 +1,232 @@
+{
+  "main": {
+    "id": "531b38ebc13facf9",
+    "type": "split",
+    "children": [
+      {
+        "id": "ffcbdf5de08add5d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e483ae4a51aaa0e8",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2026-05-20 kickoff projeto/2026-05-20 kickoff projeto.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-05-20 kickoff projeto"
+            }
+          },
+          {
+            "id": "a9e978d8f3ef2ae2",
+            "type": "leaf",
+            "state": {
+              "type": "excalidraw",
+              "state": {
+                "file": "2026-05-20 kickoff projeto/attachments/2026-05-20 kickoff projeto 2026-05-20 08.42.15.excalidraw.md"
+              },
+              "icon": "excalidraw-icon",
+              "title": "2026-05-20 kickoff projeto 2026-05-20 08.42.15.excalidraw"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4789baf1ba4fec5a",
+    "type": "split",
+    "children": [
+      {
+        "id": "781518b9167baca6",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5a193448f5088279",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "c434fcc0d304276e",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "fc8f8eef97be036e",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "98ffb5414c9c8807",
+    "type": "split",
+    "children": [
+      {
+        "id": "13b1be457c4d2af5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a962c0939305e685",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "3d35e8808753cc56",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "5e01dcf22421feb6",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "3a9679cc809e9504",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-excalidraw-plugin:New drawing": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "a9e978d8f3ef2ae2",
+  "lastOpenFiles": [
+    "2026-05-20 kickoff projeto/2026-05-20 kickoff projeto.md",
+    "2026-05-20 kickoff projeto/attachments/2026-05-20 kickoff projeto 2026-05-20 08.42.15.excalidraw.svg",
+    "2026-05-20 kickoff projeto/attachments/2026-05-20 kickoff projeto 2026-05-20 08.42.15.excalidraw.md",
+    "2026-05-20 kickoff projeto/attachments",
+    "2026-05-20 kickoff projeto",
+    "2026-05-13 dev/attachments/2026-05-13 dev 2026-05-13 08.46.41.excalidraw.md",
+    "2026-05-13 dev/2026-05-13 dev.md",
+    "2026-05-13 dev/attachments/2026-05-13 dev 2026-05-13 08.46.41.excalidraw.svg",
+    "2026-05-13 dev/attachments",
+    "2026-04-29 aula inicial/2026-04-29 aula inicial.md",
+    "2026-05-13 dev",
+    "2026-04-29 aula inicial/attachments/2026-04-29 aula inicial 2026-04-29 08.29.23.excalidraw.md",
+    "2026-04-29 aula inicial/attachments/2026-04-29 aula inicial 2026-04-29 08.29.23.excalidraw.svg",
+    "2026-04-29 aula inicial/attachments",
+    "2026-04-29 aula inicial",
+    "2026-04-27 1a aula/fichamento_27_04_2026.md",
+    "2026-04-27 1a aula/2026-04-27 1a aula.md",
+    "2026-04-27 1a aula/attachments/2026-04-27 1a aula 2026-04-27 08.30.08.excalidraw.md",
+    "2026-04-27 1a aula/attachments/2026-04-27 1a aula 2026-04-27 08.30.08.excalidraw.svg",
+    "2026-04-27 1a aula/attachments",
+    "2026-04-27 1a aula/Untitled.md",
+    "2026-04-27 1a aula",
+    "u2260316-Decorator e Template Method/u2260316-Decorator e Template Method.md",
+    "u2260316-Decorator e Template Method/attachments/u2260316-Decorator e Template Method 2026-03-16 09.56.45.excalidraw.md",
+    "u2260323- Factory/u2260323- Factory.md",
+    "u2260323- Factory/attachments/u2260323- Factory 2026-03-23 08.33.18.excalidraw.md",
+    "u2260323- Factory/attachments/attachments/Pasted Image 20260323083332_417.png",
+    "u2260323- Factory/attachments/attachments/Pasted Image 20260323083321_575.png",
+    "u2260323- Factory/attachments/attachments",
+    "u2260323- Factory/attachments/u2260323- Factory 2026-03-23 08.33.18.excalidraw.svg",
+    "u2260323- Factory/attachments",
+    "u2260309-Composite/attachments/u2260309-Composite 2026-03-09 09.19.50.excalidraw.md",
+    "u2260316-Decorator e Template Method/attachments/u2260316-Decorator e Template Method 2026-03-16 09.56.45.excalidraw.svg",
+    "u2260316-Decorator e Template Method/attachments/u2260316-Decorator 2026-03-16 08.43.00.excalidraw.md",
+    "u2260309-Composite/u2260309-Composite.md",
+    "u2260302-Strategy-Observer/attachments/u2260302-Strategy-Observer 2026-03-02 08.20.08.excalidraw.md",
+    "u2260316-Decorator e Template Method/attachments/u2260316-Decorator 2026-03-16 08.43.00.excalidraw.svg",
+    "u2260302-Strategy-Observer/u2260302-Strategy-Observer.md",
+    "u2260309-Composite/attachments/u2260309-Composite 2026-03-09 09.19.50.excalidraw.svg",
+    "u2260209-Sobre o projeto/attachments/u2260209-Observer 2026-02-09 08.29.09.excalidraw.md",
+    "u2260209-Sobre o projeto/u2260209-Sobre o projeto.md",
+    "u2260202-notificação_eventos/u2260202-notificação_eventos.md",
+    "u2260202-notificação_eventos/attachments/u2260202-notificação_eventos 2026-02-02 08.32.31.excalidraw.md",
+    "u2260209-Observer/Untitled.md",
+    "u1251208-acoplamento_vs_coesao/u1251208-acoplamento_vs_coesao.md"
+  ]
+}
