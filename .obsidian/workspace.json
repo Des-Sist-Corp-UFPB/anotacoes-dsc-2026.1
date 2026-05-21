@@ -20,21 +20,8 @@
               "icon": "lucide-file",
               "title": "2026-05-20 kickoff projeto"
             }
-          },
-          {
-            "id": "a9e978d8f3ef2ae2",
-            "type": "leaf",
-            "state": {
-              "type": "excalidraw",
-              "state": {
-                "file": "2026-05-20 kickoff projeto/attachments/2026-05-20 kickoff projeto 2026-05-20 08.42.15.excalidraw.md"
-              },
-              "icon": "excalidraw-icon",
-              "title": "2026-05-20 kickoff projeto 2026-05-20 08.42.15.excalidraw"
-            }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -181,7 +168,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "a9e978d8f3ef2ae2",
+  "active": "e483ae4a51aaa0e8",
   "lastOpenFiles": [
     "2026-05-20 kickoff projeto/attachments/2026-05-20 kickoff projeto 2026-05-20 08.42.15.excalidraw.md",
     "2026-05-20 kickoff projeto/2026-05-20 kickoff projeto.md",
