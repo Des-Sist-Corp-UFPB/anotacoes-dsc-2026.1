@@ -1,3 +1,3 @@
-# 2025.2-poo-anotacoes
+# 2026.1-DSC-anotacoes
 
-Anotações de sala de aula - POO 2025.2 - Prof. Rodrigo Rebouças
+Anotações de sala de aula - Desenvolvimento de Sistemas Corporativos 2026.1 - Prof. Rodrigo Rebouças
