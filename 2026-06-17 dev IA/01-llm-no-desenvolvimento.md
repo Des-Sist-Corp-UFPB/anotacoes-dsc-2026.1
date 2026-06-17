@@ -3,9 +3,11 @@
 ### Apostila — Desenvolvimento de Sistemas Corporativos (DSC 2026.1)
 
 **Autor:** Prof. Rodrigo Rebouças — UFPB
-(com suporte do assistente Cláudio - Claude Code - Sonnet)
+(com suporte do assistente Cláudio — Claude Code, modelo Opus 4.8)
 
 > Esta apostila ensina a **construir funcionalidades de software apoiadas em LLMs** — ou seja, sistemas em que o modelo de linguagem é um **componente do runtime**, não uma ferramenta de codificação. Os exemplos usam **Java/Spring Boot** (que vocês já dominam) e **Python** (para RAG e agentes, onde o ecossistema é mais comum).
+
+> **Sobre os exemplos de código:** eles são **ilustrativos e didáticos**, focados na **arquitetura e no fluxo** — não em compilar sem ajustes. Para não desviar a atenção, alguns símbolos são **omitidos ou pressupostos** (services, clientes, constantes como `TOOLS`/`DISPATCH`/`DEFINICOES`, métodos auxiliares). Onde o provedor é concreto, usamos a **API da Anthropic** (endpoint `/v1/messages`, modelos `claude-*`); a lição de **isolar atrás de uma interface/Adapter** é o que mantém isso trocável por qualquer outro provedor.
 
 ---
 
@@ -112,7 +114,7 @@ Quase todos os provedores expõem um endpoint REST que recebe JSON parecido com:
 
 ```json
 {
-  "model": "modelo-x",
+  "model": "claude-sonnet-4-6",
   "max_tokens": 100,
   "temperature": 0,
   "system": "Você é um classificador de chamados...",
@@ -141,18 +143,20 @@ Vamos usar `RestClient` (Spring 6+) para ser transparente sobre o que acontece. 
 
 ```yaml
 llm:
-  base-url: https://api.seu-provedor.com
-  api-key: ${LLM_API_KEY}      # NUNCA versione a chave; use variável de ambiente
-  model: modelo-x
+  base-url: https://api.anthropic.com   # exemplo concreto; outro provedor = outra URL/headers
+  api-key: ${ANTHROPIC_API_KEY}         # NUNCA versione a chave; use variável de ambiente
+  model: claude-sonnet-4-6
+  version: "2023-06-01"                 # vai no header anthropic-version
 ```
 
 **DTOs (records):**
 
 ```java
-// Requisição e resposta no formato do provedor (detalhe de infraestrutura)
+// Requisição e resposta no formato do provedor (detalhe de infraestrutura).
+// import com.fasterxml.jackson.annotation.JsonProperty;
 public record ChatRequest(
         String model,
-        int max_tokens,
+        @JsonProperty("max_tokens") int maxTokens,
         double temperature,
         String system,
         List<Message> messages) {
@@ -162,13 +166,17 @@ public record ChatRequest(
 
 public record ChatResponse(List<Content> content, Usage usage) {
     public record Content(String type, String text) {}
-    public record Usage(int input_tokens, int output_tokens) {}
+    public record Usage(
+            @JsonProperty("input_tokens")  int inputTokens,
+            @JsonProperty("output_tokens") int outputTokens) {}
 
-    public String text() {
-        return content.isEmpty() ? "" : content.get(0).text();
+    public String text() {   // null-safe: content pode vir nulo/vazio
+        return (content == null || content.isEmpty()) ? "" : content.get(0).text();
     }
 }
 ```
+
+> **Nota (Jackson + records):** anotar os campos com `@JsonProperty` (como acima) é o que **dispensa** a dependência do flag de compilação `-parameters` para o Jackson casar JSON ↔ record. Os mesmos cuidados valem para qualquer `record` desserializado — ver a nota do Cap. 4.3.
 
 **Configuração do `RestClient`:**
 
@@ -179,10 +187,15 @@ public class LlmConfig {
     @Bean
     RestClient llmRestClient(
             @Value("${llm.base-url}") String baseUrl,
-            @Value("${llm.api-key}") String apiKey) {
+            @Value("${llm.api-key}") String apiKey,
+            @Value("${llm.version}") String version) {
         return RestClient.builder()
                 .baseUrl(baseUrl)
-                .defaultHeader("Authorization", "Bearer " + apiKey)
+                // Headers da Anthropic. Outros provedores usam outro esquema
+                // (ex.: "Authorization: Bearer <chave>") e outro formato de corpo
+                // — é exatamente por isso que isolamos a API atrás de um Adapter.
+                .defaultHeader("x-api-key", apiKey)
+                .defaultHeader("anthropic-version", version)
                 .defaultHeader("Content-Type", "application/json")
                 .build();
     }
@@ -228,10 +241,13 @@ import httpx
 
 def completar(system: str, user: str) -> str:
     resp = httpx.post(
-        "https://api.seu-provedor.com/v1/messages",
-        headers={"Authorization": f"Bearer {os.environ['LLM_API_KEY']}"},
+        "https://api.anthropic.com/v1/messages",
+        headers={
+            "x-api-key": os.environ["ANTHROPIC_API_KEY"],
+            "anthropic-version": "2023-06-01",
+        },
         json={
-            "model": "modelo-x",
+            "model": "claude-sonnet-4-6",
             "max_tokens": 1000,
             "temperature": 0.0,
             "system": system,
@@ -440,6 +456,8 @@ public class ClassificadorLlm implements ClassificadorChamado {
 
 > Como os enums são fortemente tipados, um valor inesperado (ex.: `"FINANCEIRA"`) já falha no `readValue`. Isso é **bom**: transforma um erro do modelo em uma exceção tratável, em vez de um dado silenciosamente errado.
 
+> **Nota (Jackson + records):** para o Jackson desserializar um `record` pelos nomes dos campos, o projeto precisa ser compilado com o flag `-parameters` (o Spring Boot já o habilita por padrão) **ou** anotar os campos com `@JsonProperty`.
+
 ### 4.4 Retry e fallback
 
 Saída inválida não deve estourar para o usuário. Tente de novo; se persistir, caia para um padrão seguro:
@@ -472,10 +490,19 @@ class Categoria(str, Enum):
     COMERCIAL = "COMERCIAL"
     OUTRO = "OUTRO"
 
+class Urgencia(str, Enum):
+    BAIXA = "BAIXA"
+    MEDIA = "MEDIA"
+    ALTA = "ALTA"
+
 class Classificacao(BaseModel):
     categoria: Categoria
-    urgencia: str
+    urgencia: Urgencia                        # valores fechados, como no Java
     resumo: str = Field(max_length=200)
+
+def extrair_json(s: str) -> str:              # isola o {...}, análogo à versão Java
+    ini, fim = s.find("{"), s.rfind("}")
+    return s[ini:fim + 1] if ini >= 0 and fim > ini else s
 
 def classificar(texto: str) -> Classificacao:
     bruto = completar(PROMPT_CLASSIFICAR, texto)
@@ -668,7 +695,7 @@ O ponto que costuma confundir: **function calling não é uma única chamada —
 
 ```json
 {
-  "model": "modelo-x",
+  "model": "claude-sonnet-4-6",
   "tools": [ { "name": "marcar_fatura_paga", "input_schema": { ... } } ],
   "messages": [
     { "role": "user", "content": "marque a fatura 8842 como paga" }
@@ -726,7 +753,8 @@ def conversar(pedido_usuario: str) -> str:
         )
 
         if resp.stop_reason != "tool_use":
-            return resp.content[0].text          # terminou: resposta final
+            # terminou: junta os blocos de texto da resposta final
+            return "".join(b.text for b in resp.content if b.type == "text")
 
         # 1. re-anexa a resposta do modelo (que contém os tool_use)
         mensagens.append({"role": "assistant", "content": resp.content})
@@ -904,8 +932,10 @@ documentos = [
 ]
 
 def embed(texto: str) -> np.ndarray:
-    # usa o endpoint de embeddings do provedor; retorna um vetor
-    r = client.embeddings.create(model="modelo-embedding", input=texto)
+    # Embeddings vêm de um provedor de embeddings (ex.: Voyage, OpenAI ou um
+    # modelo local) — a Anthropic não expõe endpoint de embeddings. Use um
+    # cliente dedicado, separado do cliente de chat.
+    r = embeddings_client.embeddings.create(model="modelo-embedding", input=texto)
     return np.array(r.data[0].embedding)
 
 indice = [(doc, embed(doc)) for doc in documentos]  # na prática: banco vetorial
@@ -1040,7 +1070,7 @@ class ClassificadorEvalTest {
 }
 ```
 
-> Em suítes maiores, mede-se a **acurácia agregada** (ex.: "≥ 90% dos casos corretos") em vez de exigir acerto em cada caso individual, porque o não-determinismo torna casos isolados instáveis. Rode com `temperature = 0` para reduzir variação durante a avaliação.
+> Em suítes maiores, mede-se a **acurácia agregada** (ex.: "≥ 90% dos casos corretos") em vez de exigir acerto em cada caso individual, porque o não-determinismo torna casos isolados instáveis. Rode com `temperature = 0` para **reduzir** a variação durante a avaliação — atenção: isso diminui, mas **não garante**, o determinismo (ainda pode haver pequenas variações entre execuções).
 
 ### 8.3 Guardrails
 
@@ -1078,6 +1108,7 @@ Assim você testa a **lógica ao redor** do LLM de forma determinística, e rese
 ### 9.1 Custo
 
 Você paga por **tokens de entrada + saída**. Implicações:
+- **Saída custa mais que entrada:** na maioria dos provedores, o token gerado (saída) é várias vezes mais caro que o token enviado (entrada) — respostas longas pesam no custo.
 - Prompts gigantes (ex.: RAG com contexto enorme) **custam caro**.
 - Few-shot com muitos exemplos aumenta o custo de **toda** chamada.
 - **Escolha o modelo certo:** tarefas simples (classificação) podem usar modelos menores/baratos; reserve os maiores para raciocínio complexo.
@@ -1117,7 +1148,7 @@ Sem isso você está cego. **Logue e meça**:
 
 ```java
 log.info("llm.classificacao modelo={} tokensIn={} tokensOut={} latenciaMs={} categoria={}",
-         modelo, usage.input_tokens(), usage.output_tokens(), latencia, c.categoria());
+         modelo, usage.inputTokens(), usage.outputTokens(), latencia, c.categoria());
 ```
 
 > **Atenção:** não logue PII/segredos em texto claro (ver LGPD adiante). Logue metadados, hashes ou versões mascaradas.
@@ -1139,7 +1170,7 @@ Mitigações:
 
 ### 9.6 Segurança — dados sensíveis e LGPD
 
-- **Minimize o que envia:** mande ao modelo só o necessário; remova/mascarе PII desnecessária.
+- **Minimize o que envia:** mande ao modelo só o necessário; remova/mascare PII desnecessária.
 - **Saiba para onde os dados vão:** qual provedor, em que país, com que política de retenção/treinamento.
 - **LGPD:** dados pessoais exigem base legal, finalidade e cuidado com transferência internacional. Avalie anonimização/pseudonimização antes de enviar.
 - **Segredos nunca vão no prompt:** chaves, senhas, tokens.
@@ -1169,7 +1200,7 @@ Juntando tudo, uma funcionalidade corporativa com LLM bem estruturada se parece 
 └──────────────────────────────────────────────────────────┘
 ```
 
-Mapeando para o que vocês já viram no passado:
+Mapeando para o que vocês já viram no restante da disciplina:
 
 | Conceito da disciplina | Papel aqui |
 |------------------------|-----------|

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2026-06-17 dev IA/2026-06-17 dev IA.md",
+                "file": "2026-06-17 dev IA/01-llm-no-desenvolvimento.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-06-17 dev IA"
+              "title": "01-llm-no-desenvolvimento"
             }
           }
         ]
@@ -170,17 +170,17 @@
   },
   "active": "e483ae4a51aaa0e8",
   "lastOpenFiles": [
-    "2026-06-17 dev IA/04-desafio-aberto.md",
+    "2026-06-17 dev IA/03-roteiro-laboratorio-cnpj.md",
+    "2026-06-17 dev IA/01-llm-no-desenvolvimento.md",
     "2026-06-17 dev IA/2026-06-17 dev IA.md",
+    "2026-06-17 dev IA/04-desafio-aberto.md",
     "aulas/01-slides.pdf",
     "aulas/01-slides.md",
     "aulas/00-plano-de-aula.md",
     "aulas",
-    "2026-06-17 dev IA/03-roteiro-laboratorio-cnpj.md",
     "2026-06-17 dev IA/02-diagrama-arquitetura.md",
     "2026-06-17 dev IA/attachments/arquitetura-referencia-llm.excalidraw.md",
     "2026-06-17 dev IA/attachments/arquitetura-referencia-llm.excalidraw.svg",
-    "2026-06-17 dev IA/01-llm-no-desenvolvimento.md",
     "2026-06-17 dev IA/02-llm-no-desenvolvimento.md",
     "2026-06-17 dev IA/01-slides.pdf",
     "2026-06-17 dev IA/aulas/01-slides.pdf",
