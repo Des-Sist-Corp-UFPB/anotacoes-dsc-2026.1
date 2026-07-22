@@ -58,7 +58,7 @@ O **OpenTelemetry** (abreviado **OTel**) é um **padrão aberto e independente d
 
 - **Uma API e SDKs** para cada linguagem (Java, Python, JavaScript/Node, Go, .NET, Rust…), com a mesma semântica em todas.
 - **Convenções semânticas** — nomes padronizados de atributos (`http.request.method`, `db.system`, `server.address`…), para que um trace signifique a mesma coisa em qualquer linguagem.
-- **O protocolo OTLP** (*OpenTelemetry Protocol*) — o formato de fio pelo qual a telemetria viaja, tipicamente via gRPC (porta **4317**) ou HTTP (porta **4318**).
+- **O protocolo OTLP** (*OpenTelemetry Protocol*) — o protocolo pelo qual a telemetria viaja, tipicamente via gRPC (porta **4317**) ou HTTP (porta **4318**).
 
 **A grande ideia:** você instrumenta seu código **uma vez**, seguindo o padrão OTel, e pode enviar os dados para **qualquer** backend compatível — Jaeger, Grafana, Prometheus, Datadog, New Relic, etc. — trocando apenas uma configuração, sem mexer no código.
 
